@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+
+{% block title %}Ledger Report - Expense Tracker{% endblock %}
+
+{% block content %}
+<h1>Ledger Report</h1>
+
+<div class="card mt-4">
+    <div class="card-body">
+        <form method="get" class="row g-3">
+            <div class="col-md-3">
+                {{ form.account.label_tag }}
+                {{ form.account }}
+            </div>
+            <div class="col-md-3">
+                {{ form.start_date.label_tag }}
+                {{ form.start_date }}
+            </div>
+            <div class="col-md-3">
+                {{ form.end_date.label_tag }}
+                {{ form.end_date }}
+            </div>
+            <div class="col-md-3">
+                <label>&nbsp;</label>
+                <button type="submit" class="btn btn-primary w-100">Filter</button>
+            </div>
+            <div class="col-md-3">
+                {{ form.min_amount.label_tag }}
+                {{ form.min_amount }}
+            </div>
+            <div class="col-md-3">
+                {{ form.max_amount.label_tag }}
+                {{ form.max_amount }}
+            </div>
+            <div class="col-md-6">
+                <label>&nbsp;</label>
+                <a href="{% url 'ledger_report' %}" class="btn btn-secondary w-100">Clear Filters</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% if ledger_data %}
+<div class="table-responsive mt-4">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Account</th>
+                <th>Description</th>
+                <th style="text-align: right;">Amount</th>
+                <th style="text-align: right;">Balance</th>
+                <th>Photo</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in ledger_data %}
+            <tr>
+                <td>{{ item.transaction.occurred_at|date:"M d, Y H:i" }}</td>
+                <td>{{ item.transaction.account.name }}</td>
+                <td>{{ item.transaction.description }}</td>
+                <td style="text-align: right;">${{ item.transaction.amount }}</td>
+                <td style="text-align: right;"><strong>${{ item.balance }}</strong></td>
+                <td>
+                    {% if item.transaction.has_photo %}
+                        <a href="{% url 'view_transaction_photo' item.transaction.id %}" class="btn btn-sm btn-outline-primary">View</a>
+                    {% else %}
+                        <span class="badge bg-secondary">None</span>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% include 'ledger/_pagination.html' %}
+{% else %}
+<div class="alert alert-info mt-4">
+    <p>No transactions found matching the selected filters.</p>
+</div>
+{% endif %}
+
+<div class="mt-4">
+    <a href="{% url 'index' %}" class="btn btn-secondary">Back to Home</a>
+    <a href="{% url 'export_transactions' %}?{% if form.data %}{{ request.GET.urlencode }}{% endif %}" class="btn btn-success">Export to CSV</a>
+    <a href="{% url 'summary_report' %}" class="btn btn-info">View Summary</a>
+</div>
+{% endblock %}

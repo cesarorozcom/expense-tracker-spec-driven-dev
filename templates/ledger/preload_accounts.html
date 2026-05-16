@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}Preload Accounts - Expense Tracker{% endblock %}
+
+{% block content %}
+<h1>Preload Accounts</h1>
+
+<p class="lead">Upload a text file (one account name per line) or a CSV with an <code>account_name</code> column.</p>
+
+<form method="post" enctype="multipart/form-data" class="mt-4">
+    {% csrf_token %}
+    <div class="mb-3">
+        {{ form.file.label_tag }}
+        {{ form.file }}
+        {% if form.file.help_text %}
+            <small class="form-text text-muted">{{ form.file.help_text }}</small>
+        {% endif %}
+        {% if form.file.errors %}
+            <div class="alert alert-danger mt-2">{{ form.file.errors }}</div>
+        {% endif %}
+    </div>
+    <button type="submit" class="btn btn-primary">Preload Accounts</button>
+    <a href="{% url 'index' %}" class="btn btn-secondary">Cancel</a>
+</form>
+{% endblock %}

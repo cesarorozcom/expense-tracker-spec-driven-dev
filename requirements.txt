@@ -1,0 +1,6 @@
+Django==5.2
+pytz
+pytest
+pytest-django
+factory_boy
+Pillow

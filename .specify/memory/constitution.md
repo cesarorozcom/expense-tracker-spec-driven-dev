@@ -1,50 +1,58 @@
-# [PROJECT_NAME] Constitution
-<!-- Example: Spec Constitution, TaskFlow Constitution, etc. -->
+# Expense Tracker Constitution
+
+<!--
+Sync Impact Report
+- Version change: [CONSTITUTION_VERSION] -> 1.0.0
+- Modified principles: [PRINCIPLE_1_NAME] -> I. Code Quality & Maintainability
+					 [PRINCIPLE_2_NAME] -> II. Modularity & Clear Boundaries
+					 [PRINCIPLE_3_NAME] -> III. Testing Standards (Test-First)
+					 [PRINCIPLE_4_NAME] -> IV. User Experience Consistency
+					 [PRINCIPLE_5_NAME] -> V. Deployability & Performance
+- Added sections: [SECTION_2_NAME] -> Non-Functional Requirements
+				  [SECTION_3_NAME] -> Development Workflow & Quality Gates
+- Removed sections: none
+- Templates requiring review: .specify/templates/plan-template.md ✅ reviewed / ⚠ pending alignment
+					   .specify/templates/spec-template.md ⚠ pending
+					   .specify/templates/tasks-template.md ⚠ pending
+- Follow-up TODOs: TODO(RATIFICATION_DATE): original adoption date unknown
+-->
 
 ## Core Principles
 
-### [PRINCIPLE_1_NAME]
-<!-- Example: I. Library-First -->
-[PRINCIPLE_1_DESCRIPTION]
-<!-- Example: Every feature starts as a standalone library; Libraries must be self-contained, independently testable, documented; Clear purpose required - no organizational-only libraries -->
+### I. Code Quality & Maintainability
+All code MUST be readable, well-documented, and maintainable. The team MUST enforce automated linting, formatting, and static analysis on every PR. Code reviews are mandatory for all non-trivial changes and MUST verify clarity of intent, test coverage. PRs SHOULD be small, focused, and include a changelog entry when behavior changes.
 
-### [PRINCIPLE_2_NAME]
-<!-- Example: II. CLI Interface -->
-[PRINCIPLE_2_DESCRIPTION]
-<!-- Example: Every library exposes functionality via CLI; Text in/out protocol: stdin/args → stdout, errors → stderr; Support JSON + human-readable formats -->
+### II. Modularity & Clear Boundaries
+Systems and features MUST be organized into cohesive, loosely-coupled modules with explicit interfaces. Each module SHOULD have a single responsibility and a public surface that is intentionally small. Internal details MUST be encapsulated; cross-module communication MUST use well-defined contracts (interfaces/DTOs) and versioned schemas where applicable. Modules MUST be easy to replace, test, and deploy independently when practical.
 
-### [PRINCIPLE_3_NAME]
-<!-- Example: III. Test-First (NON-NEGOTIABLE) -->
-[PRINCIPLE_3_DESCRIPTION]
-<!-- Example: TDD mandatory: Tests written → User approved → Tests fail → Then implement; Red-Green-Refactor cycle strictly enforced -->
+### III. Testing Standards (Test-First)
+Testing is non-negotiable. Unit tests MUST cover core logic; integration tests MUST validate module contracts and end-to-end flows. Teams SHOULD adopt test-first practices (TDD) where feasible: write failing tests, implement, then refactor. CI pipelines MUST run the full test suite and prevent merges on failing tests. Test artifacts MUST be deterministic and fast; long-running tests belong in separate stages with clear labels.
 
-### [PRINCIPLE_4_NAME]
-<!-- Example: IV. Integration Testing -->
-[PRINCIPLE_4_DESCRIPTION]
-<!-- Example: Focus areas requiring integration tests: New library contract tests, Contract changes, Inter-service communication, Shared schemas -->
+### IV. User Experience Consistency
+User-facing behavior (web, mobile, CLI, API) MUST be consistent and accessible. Visual and interaction patterns MUST follow the approved design tokens and component library. Error messages and API responses MUST be user- and developer-friendly, localized where required, and include actionable guidance. Accessibility standards (WCAG AA where applicable) SHOULD be met for public UIs.
 
-### [PRINCIPLE_5_NAME]
-<!-- Example: V. Observability, VI. Versioning & Breaking Changes, VII. Simplicity -->
-[PRINCIPLE_5_DESCRIPTION]
-<!-- Example: Text I/O ensures debuggability; Structured logging required; Or: MAJOR.MINOR.BUILD format; Or: Start simple, YAGNI principles -->
+### V. Deployability & Performance
+The project MUST support reproducible, automated deployments (CI/CD). Builds MUST be artifact-based and environment-configurable. Deployment practices SHOULD aim for zero-downtime and easy rollback. Define performance budgets (latency, throughput, memory) for major services; these budgets MUST be validated by benchmarks and profiling during development. Monitoring, alerting, and SLAs MUST be defined for production services.
 
-## [SECTION_2_NAME]
-<!-- Example: Additional Constraints, Security Requirements, Performance Standards, etc. -->
+## Non-Functional Requirements
 
-[SECTION_2_CONTENT]
-<!-- Example: Technology stack requirements, compliance standards, deployment policies, etc. -->
+The project adheres to these constraints and standards:
+- Semantic versioning for public modules and APIs.
+- CI pipelines with linting, static analysis, tests, and security scans.
+- Observable systems: structured logging, metrics, and distributed tracing where applicable.
+- Supported deployment targets: Docker-compatible hosts, managed platforms (document in plan).
+- Performance targets and resource budgets documented per feature in the plan.
 
-## [SECTION_3_NAME]
-<!-- Example: Development Workflow, Review Process, Quality Gates, etc. -->
+## Development Workflow & Quality Gates
 
-[SECTION_3_CONTENT]
-<!-- Example: Code review requirements, testing gates, deployment approval process, etc. -->
+- All changes MUST be proposed via PR and reviewed by at least one other maintainer.
+- CI MUST gate merges; failing checks block merges.
+- Release process: tag, changelog entry, and deployment pipeline run; major/minor/patch versioning follows semantic rules.
+- Complexity that deviates from the constitution MUST be justified in an RFC and approved by maintainers; migration or mitigation plans are required for breaking changes.
 
 ## Governance
-<!-- Example: Constitution supersedes all other practices; Amendments require documentation, approval, migration plan -->
 
-[GOVERNANCE_RULES]
-<!-- Example: All PRs/reviews must verify compliance; Complexity must be justified; Use [GUIDANCE_FILE] for runtime development guidance -->
+Amendments to this constitution require a documented proposal (RFC) and approval by the project maintainers. Material changes that affect compatibility or developer workflow MUST include a migration plan and a versioning decision. Emergency fixes that alter governance MUST be recorded, timeboxed, and ratified in the next normal governance cycle.
 
-**Version**: [CONSTITUTION_VERSION] | **Ratified**: [RATIFICATION_DATE] | **Last Amended**: [LAST_AMENDED_DATE]
+**Version**: 1.0.0 | **Ratified**: TODO(RATIFICATION_DATE): original adoption date unknown | **Last Amended**: 2026-05-15
 <!-- Example: Version: 2.1.1 | Ratified: 2025-06-13 | Last Amended: 2025-07-16 -->

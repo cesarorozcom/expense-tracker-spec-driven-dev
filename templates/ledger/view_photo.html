@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %}View Photo - Expense Tracker{% endblock %}
+
+{% block content %}
+<h1>Transaction Photo</h1>
+
+<div class="mt-4">
+    <p>
+        <strong>Account:</strong> {{ transaction.account.name }}<br>
+        <strong>Date:</strong> {{ transaction.occurred_at|date:"M d, Y H:i" }}<br>
+        <strong>Amount:</strong> ${{ transaction.amount }}<br>
+        <strong>Description:</strong> {{ transaction.description }}<br>
+        <strong>Status:</strong> <span class="badge bg-{% if transaction.photo_status == 'verified' %}success{% elif transaction.photo_status == 'failed' %}danger{% else %}warning{% endif %}">{{ transaction.get_photo_status_display }}</span>
+    </p>
+</div>
+
+<div class="mt-4">
+    <div class="text-center">
+        <img src="{{ photo_url }}" alt="Transaction photo" style="max-width: 100%; max-height: 600px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+    </div>
+</div>
+
+<div class="mt-4">
+    <a href="{% url 'edit_transaction' transaction.id %}" class="btn btn-warning">Edit Transaction</a>
+    <a href="{% url 'account_detail' transaction.account.id %}" class="btn btn-secondary">Back to Account</a>
+</div>
+{% endblock %}

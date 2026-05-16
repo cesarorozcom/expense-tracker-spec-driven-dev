@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+
+{% block title %}Import Transactions - Expense Tracker{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8">
+        <h1>Import Transactions</h1>
+        
+        <div class="card mt-4">
+            <div class="card-body">
+                <h5 class="card-title">CSV File Format</h5>
+                <p>Your CSV file should have the following columns:</p>
+                <ul>
+                    <li><code>account_name</code> - Account name (required unless default selected below)</li>
+                    <li><code>date</code> - Date in YYYY-MM-DD or YYYY-MM-DD HH:MM format (required)</li>
+                    <li><code>amount</code> - Transaction amount (required)</li>
+                    <li><code>description</code> - Transaction description (optional)</li>
+                </ul>
+                
+                <p class="mt-3"><strong>Example:</strong></p>
+                <pre>account_name,date,amount,description
+Checking,2026-05-16 10:00,25.50,Coffee
+Checking,2026-05-16,15.00,Lunch
+Savings,2026-05-15,100.00,Transfer</pre>
+            </div>
+        </div>
+        
+        <form method="post" enctype="multipart/form-data" class="mt-4">
+            {% csrf_token %}
+            
+            <div class="mb-3">
+                {{ form.csv_file.label_tag }}
+                {{ form.csv_file }}
+                {% if form.csv_file.help_text %}
+                    <small class="form-text text-muted">{{ form.csv_file.help_text|safe }}</small>
+                {% endif %}
+                {% if form.csv_file.errors %}
+                    <div class="alert alert-danger mt-2">{{ form.csv_file.errors }}</div>
+                {% endif %}
+            </div>
+            
+            <div class="mb-3">
+                {{ form.account.label_tag }}
+                {{ form.account }}
+                {% if form.account.help_text %}
+                    <small class="form-text text-muted">{{ form.account.help_text|safe }}</small>
+                {% endif %}
+            </div>
+            
+            <button type="submit" class="btn btn-primary">Import Transactions</button>
+            <a href="{% url 'index' %}" class="btn btn-secondary">Cancel</a>
+        </form>
+    </div>
+    
+    <div class="col-md-4">
+        <div class="card mt-4">
+            <div class="card-body">
+                <h5 class="card-title">Quick Links</h5>
+                <ul class="list-unstyled">
+                    <li><a href="{% url 'export_transactions' %}">Export Transactions</a></li>
+                    <li><a href="{% url 'ledger_report' %}">View Ledger Report</a></li>
+                    <li><a href="{% url 'summary_report' %}">View Summary Report</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

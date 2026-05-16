@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ account.name }} - Expense Tracker{% endblock %}
+
+{% block content %}
+<h1>{{ account.name }}</h1>
+<p class="lead">Running Balance: <strong>${{ balance }}</strong></p>
+
+{% if transactions %}
+    <div class="table-responsive mt-4">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Description</th>
+                    <th>Amount</th>
+                    <th>Photo</th>
+                    <th>Recurring</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for transaction in transactions %}
+                <tr>
+                    <td>{{ transaction.occurred_at|date:"M d, Y H:i" }}</td>
+                    <td>{{ transaction.description }}</td>
+                    <td>${{ transaction.amount }}</td>
+                    <td>
+                        {% if transaction.has_photo %}
+                            <span class="badge bg-{% if transaction.photo_status == 'verified' %}success{% elif transaction.photo_status == 'failed' %}danger{% else %}warning{% endif %}">
+                                {{ transaction.get_photo_status_display }}
+                            </span>
+                            <br>
+                            <a href="{% url 'view_transaction_photo' transaction.id %}" class="btn btn-sm btn-outline-primary mt-1">View</a>
+                        {% else %}
+                            <span class="badge bg-secondary">None</span>
+                        {% endif %}
+                    </td>
+                    <td>{% if transaction.is_recurring %}<span class="badge bg-info">Yes</span>{% else %}<span class="badge bg-secondary">No</span>{% endif %}</td>
+                    <td>
+                        <a href="{% url 'edit_transaction' transaction.id %}" class="btn btn-sm btn-warning">Edit</a>
+                        <a href="{% url 'delete_transaction' transaction.id %}" class="btn btn-sm btn-danger">Delete</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% include 'ledger/_pagination.html' %}
+{% else %}
+    <div class="alert alert-info mt-4">
+        <p>No transactions yet. <a href="{% url 'create_transaction_for_account' account.id %}" class="alert-link">Add one now</a>.</p>
+    </div>
+{% endif %}
+
+<div class="mt-4">
+    <a href="{% url 'create_transaction_for_account' account.id %}" class="btn btn-success">Add Transaction</a>
+    <a href="{% url 'index' %}" class="btn btn-secondary">Back to Accounts</a>
+</div>
+{% endblock %}
