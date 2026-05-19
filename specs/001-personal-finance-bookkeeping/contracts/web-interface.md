@@ -50,6 +50,14 @@ This feature uses server-rendered HTML forms and pages rather than a public JSON
   - `invoice_photos[]`: image uploads
 - Success response: Redirect to the transaction detail page.
 
+### POST `/i18n/setlang/`
+
+- Purpose: Switch the active application language for the current browser session.
+- Form fields:
+  - `language`: supported locale code, currently `es` or `en`
+- Success response: Redirect back to the current page or the configured next URL with the selected locale active.
+- Validation failure: Reject unsupported language codes and keep the existing locale active.
+
 ## Validation Rules
 
 - `amount` must be greater than zero.
@@ -57,6 +65,8 @@ This feature uses server-rendered HTML forms and pages rather than a public JSON
 - `transaction_date` is required.
 - Photo uploads must be images and must respect the configured size limit.
 - The UI must show validation feedback without losing user-entered form data.
+- The default UI language must be Spanish unless the user explicitly selects another supported locale.
+- The language switcher must only expose supported application locales.
 
 ## UX Expectations
 

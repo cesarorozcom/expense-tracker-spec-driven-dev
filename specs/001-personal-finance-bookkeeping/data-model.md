@@ -63,6 +63,25 @@ Represents the ordered view of all saved transactions and their running balance.
 - Ordering uses transaction date and stable secondary ordering so the running balance is deterministic.
 - The ledger must always reflect the latest saved state after create, edit, or delete actions.
 
+## Derived Concept: Locale Preference
+
+Represents the active application language chosen by the user.
+
+### Fields
+
+- `language_code`: active locale code, for example `es` or `en`
+- `source`: how the locale was chosen, for example default or user selection
+
+### Validation Rules
+
+- Supported locale codes are limited to the languages configured by the application.
+- The default locale is Spanish (`es`) unless the user has explicitly selected another supported language.
+- The preference is session- or cookie-backed in v1 and is not stored as a persistent database entity.
+
+### Relationships
+
+- The locale preference applies to the current user interface session and affects all rendered pages and validation messages.
+
 ## State Transitions
 
 - `Transaction` lifecycle: created -> updated -> deleted.

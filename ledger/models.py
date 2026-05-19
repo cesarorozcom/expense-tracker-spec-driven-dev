@@ -22,6 +22,11 @@ class Transaction(models.Model):
     account = models.ForeignKey(Account, on_delete=models.CASCADE, related_name='transactions')
     occurred_at = models.DateTimeField()
     amount = models.DecimalField(max_digits=12, decimal_places=2)
+    TRANSACTION_TYPE_CHOICES = [
+        ('deposit', 'Deposit'),
+        ('payment', 'Payment'),
+    ]
+    transaction_type = models.CharField(max_length=10, choices=TRANSACTION_TYPE_CHOICES, default='payment')
     description = models.CharField(max_length=500, blank=True)
     photo = models.ImageField(upload_to='receipts/', null=True, blank=True)
     photo_status = models.CharField(max_length=20, choices=PHOTO_STATUS_CHOICES, default='unverified')

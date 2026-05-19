@@ -35,3 +35,9 @@
 - Decision: Package the app for Heroku with gunicorn as the app server and WhiteNoise for static assets.
 - Rationale: Heroku is a straightforward fit for a Django app, and these components minimize deployment complexity while keeping maintenance predictable.
 - Alternatives considered: Docker-only deployment, managed Kubernetes, and self-hosted VPS deployment. Those options add operational overhead without improving this feature's core value.
+
+## Decision 7: Use Django i18n with Spanish as the default language
+
+- Decision: Enable Django's locale framework and expose a language selector that switches the active locale, with `es` as the default language.
+- Rationale: The requirement only needs application-level language selection, and Django's built-in i18n support keeps the solution simple, testable, and consistent with the existing server-rendered UI.
+- Alternatives considered: Detecting the browser locale automatically, storing the preference in a user profile table, and using locale-specific subdomains. Automatic detection is less explicit for users, profile storage adds unnecessary data-model complexity for a single-user app, and subdomains add deployment overhead.

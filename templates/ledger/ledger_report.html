@@ -1,9 +1,11 @@
 {% extends 'base.html' %}
+{% load i18n %}
 
-{% block title %}Ledger Report - Expense Tracker{% endblock %}
+
+{% block title %}{% trans "Ledger Report" %} - {% trans "Expense Tracker" %}{% endblock %}
 
 {% block content %}
-<h1>Ledger Report</h1>
+<h1>{% trans "Ledger Report" %}</h1>
 
 <div class="card mt-4">
     <div class="card-body">
@@ -22,7 +24,7 @@
             </div>
             <div class="col-md-3">
                 <label>&nbsp;</label>
-                <button type="submit" class="btn btn-primary w-100">Filter</button>
+                <button type="submit" class="btn btn-primary w-100">{% trans "Filter" %}</button>
             </div>
             <div class="col-md-3">
                 {{ form.min_amount.label_tag }}
@@ -34,7 +36,7 @@
             </div>
             <div class="col-md-6">
                 <label>&nbsp;</label>
-                <a href="{% url 'ledger_report' %}" class="btn btn-secondary w-100">Clear Filters</a>
+                <a href="{% url 'ledger_report' %}" class="btn btn-secondary w-100">{% trans "Clear Filters" %}</a>
             </div>
         </form>
     </div>
@@ -45,12 +47,12 @@
     <table class="table table-striped">
         <thead>
             <tr>
-                <th>Date</th>
-                <th>Account</th>
-                <th>Description</th>
-                <th style="text-align: right;">Amount</th>
-                <th style="text-align: right;">Balance</th>
-                <th>Photo</th>
+                <th>{% trans "Date" %}</th>
+                <th>{% trans "Account" %}</th>
+                <th>{% trans "Description" %}</th>
+                <th style="text-align: right;">{% trans "Amount" %}</th>
+                <th style="text-align: right;">{% trans "Balance" %}</th>
+                <th>{% trans "Photo" %}</th>
             </tr>
         </thead>
         <tbody>
@@ -63,7 +65,7 @@
                 <td style="text-align: right;"><strong>${{ item.balance }}</strong></td>
                 <td>
                     {% if item.transaction.has_photo %}
-                        <a href="{% url 'view_transaction_photo' item.transaction.id %}" class="btn btn-sm btn-outline-primary">View</a>
+                        <a href="{% url 'view_transaction_photo' item.transaction.id %}" class="btn btn-sm btn-outline-primary">{% trans "View" %}</a>
                     {% else %}
                         <span class="badge bg-secondary">None</span>
                     {% endif %}
@@ -75,14 +77,14 @@
 </div>
 {% include 'ledger/_pagination.html' %}
 {% else %}
-<div class="alert alert-info mt-4">
-    <p>No transactions found matching the selected filters.</p>
-</div>
+    <div class="alert alert-info mt-4">
+    <p>{% trans "No transactions found matching the selected filters." %}</p>
+    </div>
 {% endif %}
 
 <div class="mt-4">
-    <a href="{% url 'index' %}" class="btn btn-secondary">Back to Home</a>
-    <a href="{% url 'export_transactions' %}?{% if form.data %}{{ request.GET.urlencode }}{% endif %}" class="btn btn-success">Export to CSV</a>
-    <a href="{% url 'summary_report' %}" class="btn btn-info">View Summary</a>
+    <a href="{% url 'index' %}" class="btn btn-secondary">{% trans "Back to Home" %}</a>
+    <a href="{% url 'export_transactions' %}?{% if form.data %}{{ request.GET.urlencode }}{% endif %}" class="btn btn-success">{% trans "Export to CSV" %}</a>
+    <a href="{% url 'summary_report' %}" class="btn btn-info">{% trans "View Summary" %}</a>
 </div>
 {% endblock %}

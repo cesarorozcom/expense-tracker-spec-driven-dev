@@ -1,6 +1,12 @@
 Django==5.2
-pytz
-pytest
-pytest-django
-factory_boy
-Pillow
+psycopg2-binary==2.9.9
+boto3==1.26.137
+django-storages==1.14.2
+gunicorn==21.2.0
+WhiteNoise==6.6.0
+pytz==2024.1
+pytest==7.4.3
+pytest-django==4.7.0
+factory-boy==3.3.0
+Pillow==10.1.0
+python-dateutil==2.8.2

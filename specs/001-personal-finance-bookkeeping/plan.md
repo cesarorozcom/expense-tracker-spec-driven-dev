@@ -12,7 +12,7 @@ Build a Heroku-deployable personal bookkeeping web app that lets a single user r
 
 **Language/Version**: Python 3.12
 
-**Primary Dependencies**: Django 5, PostgreSQL, gunicorn, WhiteNoise, django-storages, boto3, HTMX
+**Primary Dependencies**: Django 5, PostgreSQL, gunicorn, WhiteNoise, django-storages, boto3, HTMX, Django i18n/LocaleMiddleware
 
 **Storage**: PostgreSQL for transactions and metadata; S3-compatible object storage for invoice photos
 
@@ -55,6 +55,8 @@ Action required: select one option and update `quickstart.md` with concrete depl
 **Performance Goals**: Save and render common transaction flows in under 300 ms p95 for normal ledger sizes; support ledger views for thousands of transactions without noticeable delay; accept image uploads up to the configured limit without blocking the request lifecycle longer than necessary
 
 **Constraints**: Heroku uses an ephemeral filesystem, so invoice photos must live outside the dyno; configuration must be environment-driven; the first release is single-user and single-currency; the UI must remain simple enough to maintain without a separate frontend application; the interface must be responsive and touch-friendly on mobile phone screens
+
+**Localization**: The application MUST expose a language selector in the UI and default to Spanish (`es`) for first-time visitors unless the user explicitly selects another supported locale
 
 **Scale/Scope**: Single-user personal ledger with deposits, payments, running balances, and invoice photos; expected to handle thousands of transactions and multiple photos per transaction
 
