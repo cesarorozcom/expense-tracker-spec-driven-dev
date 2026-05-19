@@ -6,6 +6,7 @@
 - PostgreSQL
 - Heroku CLI
 - An S3-compatible object storage bucket for invoice photos
+- Django locale catalogs for `en` and `es`
 
 ## Local Setup
 
@@ -26,6 +27,7 @@ export DJANGO_SETTINGS_MODULE=src.config.settings
 export DATABASE_URL=postgres://localhost/personal_finance
 export SECRET_KEY=change-me
 export DEBUG=1
+export LANGUAGE_CODE=es
 python manage.py migrate
 python manage.py runserver
 pytest
@@ -42,6 +44,7 @@ pytest
 - `AWS_STORAGE_BUCKET_NAME`: object storage bucket name
 - `AWS_S3_REGION_NAME`: storage region
 - `HEROKU_POSTGRESQL_*`: provided by Heroku Postgres in production
+- `LANGUAGE_CODE`: default application language; set to `es` for Spanish-first behavior
 
 ## Heroku Deployment
 
@@ -52,6 +55,7 @@ pytest
 5. Push the repository to Heroku.
 6. Run migrations on Heroku.
 7. Open the deployed app and verify that transactions and photo uploads work end to end.
+8. Verify the language selector defaults to Spanish and can switch the UI to English.
 
 Example commands:
 
@@ -59,7 +63,7 @@ Example commands:
 heroku create
 heroku ps:type basic
 heroku addons:create heroku-postgresql:essential-0
-heroku config:set SECRET_KEY=change-me DEBUG=0 AWS_STORAGE_BUCKET_NAME=your-bucket
+heroku config:set SECRET_KEY=change-me DEBUG=0 LANGUAGE_CODE=es AWS_STORAGE_BUCKET_NAME=your-bucket
 git push heroku main
 heroku run python manage.py migrate
 heroku open
@@ -72,3 +76,4 @@ heroku open
 - Running balance updates after edit and delete actions.
 - Static assets load correctly in production.
 - The app remains usable on a mobile phone viewport with no clipped controls or blocked form submission.
+- The language selector renders on every authenticated page and preserves the chosen locale during navigation.

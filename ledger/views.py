@@ -6,8 +6,10 @@ from django.core.paginator import Paginator
 from decimal import Decimal
 from .models import Account, Transaction
 from .forms import AccountForm, TransactionForm
+from django.contrib.auth.decorators import login_required
 
 
+@login_required
 def index(request):
     """List all accounts with running balance."""
     # Use aggregation to reduce DB queries
@@ -28,6 +30,7 @@ def index(request):
     })
 
 
+@login_required
 def account_detail(request, account_id):
     """Show transactions for an account."""
     account = get_object_or_404(Account, id=account_id)
@@ -51,6 +54,7 @@ def account_detail(request, account_id):
     })
 
 
+@login_required
 def create_account(request):
     """Create a new account."""
     if request.method == 'POST':
@@ -64,6 +68,7 @@ def create_account(request):
     return render(request, 'ledger/create_account.html', {'form': form})
 
 
+@login_required
 def create_transaction(request, account_id=None):
     """Create a new transaction."""
     account = None
@@ -81,7 +86,16 @@ def create_transaction(request, account_id=None):
             if form.cleaned_data.get('photo'):
                 transaction.photo_status = 'unverified'
                 transaction.photo_uploaded_at = timezone.now()
-            
+            # Ensure amount sign matches transaction_type: deposits are positive, payments negative
+            try:
+                amt = Decimal(form.cleaned_data.get('amount') or transaction.amount)
+            except Exception:
+                amt = Decimal('0.00')
+            if form.cleaned_data.get('transaction_type') == 'deposit':
+                transaction.amount = abs(amt)
+            else:
+                transaction.amount = -abs(amt)
+
             transaction.save()
             return redirect('account_detail', account_id=transaction.account.id)
     else:
@@ -95,6 +109,7 @@ def create_transaction(request, account_id=None):
     })
 
 
+@login_required
 def edit_transaction(request, transaction_id):
     """Edit an existing transaction."""
     transaction = get_object_or_404(Transaction, id=transaction_id)
@@ -103,12 +118,22 @@ def edit_transaction(request, transaction_id):
         form = TransactionForm(request.POST, request.FILES, instance=transaction)
         if form.is_valid():
             transaction = form.save(commit=False)
-            
+
             # Handle photo update
             if form.cleaned_data.get('photo') and form.files.get('photo'):
                 transaction.photo_status = 'unverified'
                 transaction.photo_uploaded_at = timezone.now()
-            
+
+            # Normalize amount sign to match transaction_type
+            try:
+                amt = Decimal(form.cleaned_data.get('amount') or transaction.amount)
+            except Exception:
+                amt = Decimal('0.00')
+            if form.cleaned_data.get('transaction_type') == 'deposit':
+                transaction.amount = abs(amt)
+            else:
+                transaction.amount = -abs(amt)
+
             transaction.save()
             return redirect('account_detail', account_id=transaction.account.id)
     else:
@@ -120,6 +145,7 @@ def edit_transaction(request, transaction_id):
     })
 
 
+@login_required
 def delete_transaction(request, transaction_id):
     """Delete a transaction."""
     transaction = get_object_or_404(Transaction, id=transaction_id)
@@ -134,6 +160,7 @@ def delete_transaction(request, transaction_id):
     })
 
 
+@login_required
 def view_transaction_photo(request, transaction_id):
     """View transaction photo with signed URL (placeholder for S3 integration)."""
     transaction = get_object_or_404(Transaction, id=transaction_id)

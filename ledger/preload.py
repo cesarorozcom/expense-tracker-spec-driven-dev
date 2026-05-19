@@ -1,13 +1,15 @@
 from django.shortcuts import render
 from django import forms
+from django.utils.translation import gettext_lazy as _
 from .models import Account
 from django.views.decorators.http import require_http_methods
 
 
 class PreloadAccountsForm(forms.Form):
     file = forms.FileField(
+        label=_('File'),
         widget=forms.FileInput(attrs={'class': 'form-control', 'accept': '.txt,.csv'}),
-        help_text='Upload newline-separated account names or a CSV with an account_name column.'
+        help_text=_('Upload newline-separated account names or a CSV with an account_name column.')
     )
 
 

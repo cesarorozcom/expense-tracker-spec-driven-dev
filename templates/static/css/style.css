@@ -1,0 +1,531 @@
+/**
+ * Expense Tracker - Base Stylesheet
+ * 
+ * Design principles:
+ * - Mobile-first responsive design
+ * - WCAG 2.1 AA accessibility compliance
+ * - High contrast ratios (4.5:1 for normal text, 3:1 for large text)
+ * - Touch-friendly controls (minimum 44px/48px touch target size)
+ * - Keyboard navigation support
+ * - Screen reader friendly
+ */
+
+:root {
+    /* Color palette - WCAG AA compliant high contrast */
+    --color-primary: #0d6efd;      /* Bootstrap primary blue */
+    --color-primary-dark: #0b5ed7; /* Darker blue for contrast */
+    --color-success: #198754;       /* Green */
+    --color-danger: #dc3545;        /* Red */
+    --color-warning: #ffc107;       /* Yellow/Gold */
+    --color-info: #0dcaf0;          /* Cyan */
+    
+    --color-text-primary: #212529;   /* Near black */
+    --color-text-secondary: #6c757d; /* Gray */
+    --color-border: #dee2e6;         /* Light gray */
+    --color-bg: #ffffff;             /* White */
+    --color-bg-light: #f8f9fa;       /* Off-white */
+    
+    /* Typography */
+    --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --font-size-base: 1rem;
+    --font-size-sm: 0.875rem;
+    --font-size-lg: 1.25rem;
+    --font-size-xl: 1.5rem;
+    
+    /* Spacing */
+    --spacing-xs: 0.25rem;
+    --spacing-sm: 0.5rem;
+    --spacing-md: 1rem;
+    --spacing-lg: 1.5rem;
+    --spacing-xl: 2rem;
+    
+    /* Touch targets */
+    --touch-target-min: 44px;       /* Minimum touch target (WCAG 2.1 AA) */
+    --button-padding: 0.75rem 1.5rem;
+}
+
+/* ============================================================================
+   GLOBAL STYLES
+   ============================================================================ */
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 16px; /* Ensures 1rem = 16px baseline */
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: var(--font-family);
+    font-size: var(--font-size-base);
+    line-height: 1.5;
+    color: var(--color-text-primary);
+    background-color: var(--color-bg-light);
+}
+
+/* ============================================================================
+   FOCUS & KEYBOARD NAVIGATION (WCAG 2.1 Level AA)
+   ============================================================================ */
+
+:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+}
+
+/* Ensure all interactive elements are keyboard accessible */
+a, button, input, select, textarea {
+    transition: outline-offset 0.15s ease;
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+}
+
+/* ============================================================================
+   TYPOGRAPHY
+   ============================================================================ */
+
+h1, h2, h3, h4, h5, h6 {
+    margin-top: var(--spacing-lg);
+    margin-bottom: var(--spacing-md);
+    font-weight: 600;
+    line-height: 1.2;
+}
+
+h1 { font-size: var(--font-size-xl); }
+h2 { font-size: 1.375rem; }
+h3 { font-size: 1.25rem; }
+h4 { font-size: 1.125rem; }
+h5 { font-size: 1rem; }
+h6 { font-size: 0.875rem; }
+
+p {
+    margin-bottom: var(--spacing-md);
+}
+
+a {
+    color: var(--color-primary);
+    text-decoration: none;
+}
+
+a:hover,
+a:active {
+    color: var(--color-primary-dark);
+    text-decoration: underline;
+}
+
+/* ============================================================================
+   FORMS & INPUTS (WCAG 2.1 AA)
+   ============================================================================ */
+
+label {
+    display: block;
+    margin-bottom: var(--spacing-sm);
+    font-weight: 500;
+    color: var(--color-text-primary);
+}
+
+/* Required field indicator */
+label .required::after {
+    content: " *";
+    color: var(--color-danger);
+    aria-label: "required";
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+input[type="date"],
+input[type="time"],
+textarea,
+select {
+    width: 100%;
+    padding: var(--spacing-sm) var(--spacing-md);
+    font-family: var(--font-family);
+    font-size: var(--font-size-base);
+    line-height: 1.5;
+    color: var(--color-text-primary);
+    border: 1px solid var(--color-border);
+    border-radius: 0.25rem;
+    background-color: var(--color-bg);
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+input[type="number"]:focus,
+input[type="date"]:focus,
+input[type="time"]:focus,
+textarea:focus,
+select:focus {
+    border-color: var(--color-primary);
+    background-color: var(--color-bg);
+    box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+}
+
+/* Touch-friendly form controls */
+input[type="checkbox"],
+input[type="radio"] {
+    width: 1.25rem;
+    height: 1.25rem;
+    margin-right: var(--spacing-sm);
+    cursor: pointer;
+}
+
+textarea {
+    resize: vertical;
+    min-height: 6rem;
+}
+
+/* Error state */
+input.is-invalid,
+select.is-invalid,
+textarea.is-invalid {
+    border-color: var(--color-danger);
+}
+
+input.is-invalid:focus,
+select.is-invalid:focus,
+textarea.is-invalid:focus {
+    box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+}
+
+.form-error,
+.invalid-feedback {
+    display: block;
+    margin-top: var(--spacing-sm);
+    font-size: var(--font-size-sm);
+    color: var(--color-danger);
+}
+
+/* Success state */
+input.is-valid,
+select.is-valid,
+textarea.is-valid {
+    border-color: var(--color-success);
+}
+
+input.is-valid:focus,
+select.is-valid:focus,
+textarea.is-valid:focus {
+    box-shadow: 0 0 0 0.2rem rgba(25, 135, 84, 0.25);
+}
+
+/* ============================================================================
+   BUTTONS (WCAG 2.1 AA - minimum 44px height touch target)
+   ============================================================================ */
+
+button,
+.btn,
+input[type="submit"],
+input[type="reset"],
+input[type="button"] {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: var(--touch-target-min);
+    padding: var(--button-padding);
+    font-family: var(--font-family);
+    font-size: var(--font-size-base);
+    font-weight: 500;
+    line-height: 1.5;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    cursor: pointer;
+    border: 1px solid transparent;
+    border-radius: 0.25rem;
+    transition: color 0.15s ease, background-color 0.15s ease, border-color 0.15s ease;
+}
+
+/* Primary button */
+.btn-primary,
+button[type="submit"] {
+    color: var(--color-bg);
+    background-color: var(--color-primary);
+    border-color: var(--color-primary);
+}
+
+.btn-primary:hover,
+button[type="submit"]:hover {
+    background-color: var(--color-primary-dark);
+    border-color: var(--color-primary-dark);
+}
+
+/* Secondary button */
+.btn-secondary {
+    color: var(--color-text-primary);
+    background-color: var(--color-bg-light);
+    border-color: var(--color-border);
+}
+
+.btn-secondary:hover {
+    background-color: var(--color-border);
+}
+
+/* Danger button */
+.btn-danger {
+    color: var(--color-bg);
+    background-color: var(--color-danger);
+    border-color: var(--color-danger);
+}
+
+.btn-danger:hover {
+    background-color: #c82333;
+    border-color: #c82333;
+}
+
+/* Disabled state */
+button:disabled,
+.btn:disabled,
+input[type="submit"]:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+}
+
+/* ============================================================================
+   NAVIGATION (WCAG 2.1 AA - 48px minimum touch target for mobile nav)
+   ============================================================================ */
+
+.navbar {
+    background-color: var(--color-bg);
+    border-bottom: 1px solid var(--color-border);
+    padding: var(--spacing-md) 0;
+}
+
+.navbar-brand {
+    font-size: var(--font-size-lg);
+    font-weight: 600;
+    color: var(--color-primary) !important;
+}
+
+.nav-link {
+    padding: 0.5rem 1rem;
+    min-height: 48px;
+    display: flex;
+    align-items: center;
+    color: var(--color-text-primary) !important;
+    text-decoration: none;
+}
+
+.nav-link:hover {
+    color: var(--color-primary) !important;
+}
+
+.nav-link.active {
+    color: var(--color-primary) !important;
+    border-bottom: 2px solid var(--color-primary);
+}
+
+.navbar-toggler {
+    min-height: var(--touch-target-min);
+    min-width: var(--touch-target-min);
+}
+
+/* ============================================================================
+   TABLES
+   ============================================================================ */
+
+table {
+    width: 100%;
+    margin-bottom: var(--spacing-lg);
+    border-collapse: collapse;
+}
+
+th {
+    padding: var(--spacing-md);
+    text-align: left;
+    font-weight: 600;
+    background-color: var(--color-bg-light);
+    border-bottom: 2px solid var(--color-border);
+}
+
+td {
+    padding: var(--spacing-md);
+    border-bottom: 1px solid var(--color-border);
+}
+
+tbody tr:hover {
+    background-color: var(--color-bg-light);
+}
+
+/* ============================================================================
+   CARDS & CONTAINERS
+   ============================================================================ */
+
+.card {
+    background-color: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: 0.25rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+    margin-bottom: var(--spacing-lg);
+}
+
+.card-header {
+    padding: var(--spacing-lg);
+    background-color: var(--color-bg-light);
+    border-bottom: 1px solid var(--color-border);
+}
+
+.card-body {
+    padding: var(--spacing-lg);
+}
+
+.card-footer {
+    padding: var(--spacing-md) var(--spacing-lg);
+    background-color: var(--color-bg-light);
+    border-top: 1px solid var(--color-border);
+}
+
+/* ============================================================================
+   ALERTS & MESSAGES
+   ============================================================================ */
+
+.alert {
+    padding: var(--spacing-lg);
+    margin-bottom: var(--spacing-lg);
+    border: 1px solid transparent;
+    border-radius: 0.25rem;
+}
+
+.alert-success {
+    color: #155724;
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+}
+
+.alert-error,
+.alert-danger {
+    color: #721c24;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+}
+
+.alert-warning {
+    color: #856404;
+    background-color: #fff3cd;
+    border-color: #ffeeba;
+}
+
+.alert-info {
+    color: #0c5460;
+    background-color: #d1ecf1;
+    border-color: #bee5eb;
+}
+
+.close-btn {
+    float: right;
+    font-size: 1.5rem;
+    font-weight: 700;
+    line-height: 1;
+    color: #000;
+    text-shadow: 0 1px 0 #fff;
+    opacity: 0.5;
+    background: transparent;
+    border: 0;
+    padding: 0;
+    cursor: pointer;
+    min-height: var(--touch-target-min);
+    min-width: var(--touch-target-min);
+}
+
+.close-btn:hover,
+.close-btn:focus {
+    opacity: 0.75;
+}
+
+/* ============================================================================
+   RESPONSIVE BREAKPOINTS (Mobile-first)
+   ============================================================================ */
+
+/* Small devices (landscape phones, 576px and up) */
+@media (min-width: 576px) {
+    :root {
+        --font-size-base: 1rem;
+    }
+}
+
+/* Medium devices (tablets, 768px and up) */
+@media (min-width: 768px) {
+    body {
+        padding: var(--spacing-lg);
+    }
+    
+    h1 { font-size: 2rem; }
+    h2 { font-size: 1.75rem; }
+    
+    .container {
+        max-width: 750px;
+    }
+}
+
+/* Large devices (desktops, 992px and up) */
+@media (min-width: 992px) {
+    .container {
+        max-width: 960px;
+    }
+}
+
+/* Extra large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {
+    .container {
+        max-width: 1140px;
+    }
+}
+
+/* ============================================================================
+   PRINT STYLES
+   ============================================================================ */
+
+@media print {
+    body {
+        background-color: white;
+    }
+    
+    .navbar,
+    .navbar-toggler,
+    .btn {
+        display: none;
+    }
+    
+    * {
+        box-shadow: none !important;
+    }
+}
+
+/* ============================================================================
+   HIGH CONTRAST MODE (Prefers color scheme)
+   ============================================================================ */
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --color-text-primary: #f8f9fa;
+        --color-text-secondary: #adb5bd;
+        --color-border: #495057;
+        --color-bg: #212529;
+        --color-bg-light: #343a40;
+    }
+}
+
+/* ============================================================================
+   REDUCED MOTION (Accessibility - prefers-reduced-motion)
+   ============================================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}

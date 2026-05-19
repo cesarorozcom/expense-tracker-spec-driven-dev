@@ -81,7 +81,7 @@ As a family managing personal finances, I want to review my transaction history 
 - **FR-003**: The system MUST allow users to classify each transaction as a deposit or a payment.
 - **FR-004**: The system MUST allow users to attach one or more invoice photos to a transaction.
 - **FR-005**: The system MUST preserve each saved transaction with its associated photo attachments for later review.
-- **FR-006**: The system MUST create a transaction ledger from a given photo or manual entry and update the running balance accordingly.
+- **FR-006**: The system MUST store invoice photos as supporting evidence attachments to transactions and display them for later review. Automatic data extraction (OCR) from photos is out-of-scope for v1.
 - **FR-007**: The system MUST display a running balance that updates after each saved transaction.
 - **FR-008**: The system MUST recalculate the running balance when a transaction is edited or deleted.
 - **FR-009**: The system MUST show a transaction history that includes date, type, amount, and balance impact.
@@ -89,7 +89,8 @@ As a family managing personal finances, I want to review my transaction history 
 - **FR-011**: The system MUST let users review saved transaction details after creation.
 - **FR-012**: The system MUST support updating or removing previously saved transactions.
 - **FR-013**: The system MUST provide a responsive interface that remains usable on mobile phone browsers.
-- **FR-014**: The system MUST allow to record periodical transactions for example monthly subscriptions, or monthly bills.
+- **FR-014**: The system MUST allow users to define and manage recurring transactions (e.g., monthly subscriptions, monthly bills). When editing a generated recurring instance, users MUST be prompted to choose: update only this instance, or update the underlying recurring rule (affecting all future generated instances).
+- **FR-015**: The system MUST allow to select the application language.
 
 ### Key Entities *(include if feature involves data)*
 
@@ -112,10 +113,18 @@ As a family managing personal finances, I want to review my transaction history 
 ## Assumptions
 
 - The product is a single-user personal bookkeeping experience rather than a shared household or business ledger.
-- Invoice photos are stored as supporting evidence for transactions; automatic data extraction from photos is not required for the first version.
+- Invoice photos are stored as supporting evidence for transactions; automatic data extraction (OCR) from photos is explicitly OUT OF SCOPE for v1 and deferred to a future release.
 - The ledger uses one currency at a time.
 - Users can correct or delete entries if they make a mistake.
 - The first version focuses on recording, reviewing, and balancing transactions rather than budgeting, taxation, or bank synchronization.
 - The first version must support common mobile phone viewport sizes with touch-friendly controls.
 - The system will allow to create periodical transactions that can be automatically recorded at specified intervals, but the initial implementation will focus on manual entry and photo capture for one-time transactions.
-- The system will extract data from invoice photos to pre-fill transaction details, but users can edit the extracted information before saving the transaction.
+- Photo data extraction and OCR are deferred to a future release; v1 focuses on manual entry and photo storage as supporting evidence only.
+
+## Clarifications
+
+### Session 2026-05-19
+
+- **Q1**: Is automatic data extraction (OCR) from invoice photos in scope for v1? → **A: No, OCR is OUT OF SCOPE for v1.** FR-006 means photo storage and attachment only; automatic data extraction is deferred to a future release. Users manually enter all transaction details; photos serve as supporting evidence only.
+
+- **Q2**: When a user edits a generated recurring transaction instance (e.g., monthly rent amount), should the change apply only to that instance or also update the recurring rule? → **A: Offer user choice (Option B).** When editing a generated instance, prompt "Update only this occurrence or update the recurring rule (affecting all future)?" This allows users to handle mid-period changes (e.g., rent increase) without affecting past transactions.

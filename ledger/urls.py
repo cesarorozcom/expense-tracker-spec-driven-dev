@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, include
 from . import views
 from . import import_export_views
 from . import preload
@@ -20,4 +20,6 @@ urlpatterns = [
     path('reports/summary/', import_export_views.summary_report, name='summary_report'),
     # Preload accounts
     path('preload-accounts/', preload.preload_accounts, name='preload_accounts'),
+    # Authentication (login/logout/password reset)
+    path('auth/', include('django.contrib.auth.urls')),
 ]

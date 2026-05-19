@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+
+{% block title %}{% trans "Sign In" %} - {% trans "Expense Tracker" %}{% endblock %}
+
+{% block content %}
+<h1>{% trans "Sign In" %}</h1>
+
+<form method="post" class="mt-4">
+    {% csrf_token %}
+    <div class="mb-3">
+        <label for="id_username" class="form-label">{% trans "Email" %}</label>
+        <input type="text" name="username" autofocus required id="id_username" class="form-control">
+    </div>
+    <div class="mb-3">
+        <label for="id_password" class="form-label">{% trans "Password" %}</label>
+        <input type="password" name="password" required id="id_password" class="form-control">
+    </div>
+    <button type="submit" class="btn btn-primary">{% trans "Sign In" %}</button>
+</form>
+{% endblock %}

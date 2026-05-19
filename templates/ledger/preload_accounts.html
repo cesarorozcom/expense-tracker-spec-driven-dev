@@ -1,11 +1,12 @@
+{% load i18n %}
 {% extends 'base.html' %}
 
-{% block title %}Preload Accounts - Expense Tracker{% endblock %}
+{% block title %}{% trans "Preload Accounts" %} - {% trans "Expense Tracker" %}{% endblock %}
 
 {% block content %}
-<h1>Preload Accounts</h1>
+<h1>{% trans "Preload Accounts" %}</h1>
 
-<p class="lead">Upload a text file (one account name per line) or a CSV with an <code>account_name</code> column.</p>
+<p class="lead">{% trans "Upload a text file (one account name per line) or a CSV with an" %} <code>account_name</code> {% trans "column." %}</p>
 
 <form method="post" enctype="multipart/form-data" class="mt-4">
     {% csrf_token %}
@@ -19,7 +20,7 @@
             <div class="alert alert-danger mt-2">{{ form.file.errors }}</div>
         {% endif %}
     </div>
-    <button type="submit" class="btn btn-primary">Preload Accounts</button>
-    <a href="{% url 'index' %}" class="btn btn-secondary">Cancel</a>
+    <button type="submit" class="btn btn-primary">{% trans "Preload Accounts" %}</button>
+    <a href="{% url 'index' %}" class="btn btn-secondary">{% trans "Cancel" %}</a>
 </form>
 {% endblock %}
