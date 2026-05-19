@@ -1,0 +1,9 @@
+{% load i18n %}
+{% extends 'base.html' %}
+
+{% block title %}{% trans "Signed Out" %} - {% trans "Expense Tracker" %}{% endblock %}
+
+{% block content %}
+<h1>{% trans "Signed out" %}</h1>
+<p>{% trans "You have been signed out." %} <a href="{% url 'login' %}">{% trans "Sign in again" %}</a>.</p>
+{% endblock %}

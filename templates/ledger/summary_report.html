@@ -1,9 +1,11 @@
 {% extends 'base.html' %}
+{% load i18n %}
 
-{% block title %}Summary Report - Expense Tracker{% endblock %}
+
+{% block title %}{% trans "Summary Report" %} - {% trans "Expense Tracker" %}{% endblock %}
 
 {% block content %}
-<h1>Summary Report</h1>
+<h1>{% trans "Summary Report" %}</h1>
 
 <div class="card mt-4">
     <div class="card-body">
@@ -40,10 +42,10 @@
     <div class="col-md-6">
         <div class="card bg-light">
             <div class="card-body">
-                <h5 class="card-title">Overall Summary</h5>
+                <h5 class="card-title">{% trans "Overall Summary" %}</h5>
                 <p class="card-text">
-                    <strong>Total Balance:</strong> ${{ total_balance }}<br>
-                    <strong>Total Transactions:</strong> {{ total_transactions }}
+                    <strong>{% trans "Total Balance:" %}</strong> ${{ total_balance }}<br>
+                    <strong>{% trans "Total Transactions:" %}</strong> {{ total_transactions }}
                 </p>
             </div>
         </div>
@@ -55,11 +57,11 @@
     <table class="table table-striped">
         <thead>
             <tr>
-                <th>Account</th>
-                <th style="text-align: right;">Balance</th>
-                <th>Transactions</th>
-                <th>Photos</th>
-                <th>Actions</th>
+                <th>{% trans "Account" %}</th>
+                <th style="text-align: right;">{% trans "Balance" %}</th>
+                <th>{% trans "Transactions" %}</th>
+                <th>{% trans "Photos" %}</th>
+                <th>{% trans "Actions" %}</th>
             </tr>
         </thead>
         <tbody>
@@ -70,7 +72,7 @@
                 <td>{{ item.transaction_count }}</td>
                 <td>{{ item.photo_count }}</td>
                 <td>
-                    <a href="{% url 'account_detail' item.account.id %}" class="btn btn-sm btn-info">View Account</a>
+                    <a href="{% url 'account_detail' item.account.id %}" class="btn btn-sm btn-info">{% trans "View Account" %}</a>
                 </td>
             </tr>
             {% endfor %}
@@ -78,14 +80,14 @@
     </table>
 </div>
 {% else %}
-<div class="alert alert-info mt-4">
-    <p>No accounts found. <a href="{% url 'create_account' %}" class="alert-link">Create one now</a>.</p>
-</div>
+    <div class="alert alert-info mt-4">
+    <p>{% trans "No accounts found." %} <a href="{% url 'create_account' %}" class="alert-link">{% trans "Create one now" %}</a>.</p>
+    </div>
 {% endif %}
 
 <div class="mt-4">
-    <a href="{% url 'index' %}" class="btn btn-secondary">Back to Home</a>
-    <a href="{% url 'ledger_report' %}" class="btn btn-info">View Ledger</a>
-    <a href="{% url 'import_transactions' %}" class="btn btn-success">Import Transactions</a>
+    <a href="{% url 'index' %}" class="btn btn-secondary">{% trans "Back to Home" %}</a>
+    <a href="{% url 'ledger_report' %}" class="btn btn-info">{% trans "View Ledger" %}</a>
+    <a href="{% url 'import_transactions' %}" class="btn btn-success">{% trans "Import Transactions" %}</a>
 </div>
 {% endblock %}

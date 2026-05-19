@@ -1,9 +1,11 @@
 {% extends 'base.html' %}
+{% load i18n %}
 
-{% block title %}Edit Transaction - Expense Tracker{% endblock %}
+
+{% block title %}{% trans "Edit Transaction" %} - {% trans "Expense Tracker" %}{% endblock %}
 
 {% block content %}
-<h1>Edit Transaction</h1>
+<h1>{% trans "Edit Transaction" %}</h1>
 
 <form method="post" enctype="multipart/form-data" class="mt-4">
     {% csrf_token %}
@@ -20,6 +22,10 @@
         {% if form.occurred_at.errors %}
             <div class="alert alert-danger mt-2">{{ form.occurred_at.errors }}</div>
         {% endif %}
+    </div>
+    <div class="mb-3">
+        {{ form.transaction_type.label_tag }}
+        {{ form.transaction_type }}
     </div>
     <div class="mb-3">
         {{ form.amount.label_tag }}
@@ -58,7 +64,7 @@
             <div class="alert alert-danger mt-2">{{ form.is_recurring.errors }}</div>
         {% endif %}
     </div>
-    <button type="submit" class="btn btn-primary">Save Changes</button>
-    <a href="{% url 'account_detail' transaction.account.id %}" class="btn btn-secondary">Cancel</a>
+    <button type="submit" class="btn btn-primary">{% trans "Save Changes" %}</button>
+    <a href="{% url 'account_detail' transaction.account.id %}" class="btn btn-secondary">{% trans "Cancel" %}</a>
 </form>
 {% endblock %}

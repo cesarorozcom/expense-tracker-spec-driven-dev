@@ -1,21 +1,22 @@
+{% load i18n %}
 {% extends 'base.html' %}
 
-{% block title %}Preload Results - Expense Tracker{% endblock %}
+{% block title %}{% trans "Preload Results" %} - {% trans "Expense Tracker" %}{% endblock %}
 
 {% block content %}
-<h1>Preload Results</h1>
+<h1>{% trans "Preload Results" %}</h1>
 
 <div class="mt-4">
     <div class="alert alert-success">
-        <p><strong>Total rows:</strong> {{ total }}</p>
-        <p><strong>Created:</strong> {{ created|length }}</p>
-        <p><strong>Skipped (already existed):</strong> {{ skipped|length }}</p>
+        <p><strong>{% trans "Total rows:" %}</strong> {{ total }}</p>
+        <p><strong>{% trans "Created:" %}</strong> {{ created|length }}</p>
+        <p><strong>{% trans "Skipped (already existed):" %}</strong> {{ skipped|length }}</p>
     </div>
 
     {% if created %}
     <div class="card mb-3">
         <div class="card-body">
-            <h5>Created Accounts</h5>
+            <h5>{% trans "Created Accounts" %}</h5>
             <ul>
                 {% for name in created %}
                 <li>{{ name }}</li>
@@ -28,7 +29,7 @@
     {% if skipped %}
     <div class="card mb-3">
         <div class="card-body">
-            <h5>Skipped (already existed)</h5>
+            <h5>{% trans "Skipped (already existed)" %}</h5>
             <ul>
                 {% for name in skipped %}
                 <li>{{ name }}</li>
@@ -38,7 +39,7 @@
     </div>
     {% endif %}
 
-    <a href="{% url 'index' %}" class="btn btn-primary">Back to Home</a>
-    <a href="{% url 'preload_accounts' %}" class="btn btn-secondary">Preload More</a>
+    <a href="{% url 'index' %}" class="btn btn-primary">{% trans "Back to Home" %}</a>
+    <a href="{% url 'preload_accounts' %}" class="btn btn-secondary">{% trans "Preload More" %}</a>
 </div>
 {% endblock %}

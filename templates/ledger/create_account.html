@@ -1,9 +1,10 @@
 {% extends 'base.html' %}
 
-{% block title %}Create Account - Expense Tracker{% endblock %}
+{% load i18n %}
+{% block title %}{% trans "Create Account" %} - {% trans "Expense Tracker" %}{% endblock %}
 
 {% block content %}
-<h1>Create Account</h1>
+<h1>{% trans "Create Account" %}</h1>
 
 <form method="post" class="mt-4">
     {% csrf_token %}
@@ -14,7 +15,7 @@
             <div class="alert alert-danger mt-2">{{ form.name.errors }}</div>
         {% endif %}
     </div>
-    <button type="submit" class="btn btn-primary">Create</button>
-    <a href="{% url 'index' %}" class="btn btn-secondary">Cancel</a>
+    <button type="submit" class="btn btn-primary">{% trans "Create" %}</button>
+    <a href="{% url 'index' %}" class="btn btn-secondary">{% trans "Cancel" %}</a>
 </form>
 {% endblock %}

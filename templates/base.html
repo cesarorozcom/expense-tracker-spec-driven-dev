@@ -1,10 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
+{% load i18n %}
+{% get_current_language as CURRENT_LANGUAGE %}
+<html lang="{{ CURRENT_LANGUAGE }}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Expense Tracker{% endblock %}</title>
+    <title>{% block title %}{% trans "Expense Tracker" %}{% endblock %}</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    {% load static %}
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
     <style>
         body {
             padding: 20px;
@@ -18,6 +22,25 @@
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
+        /* Accessibility: Ensure focus is always visible with 2px minimum outline */
+        :focus {
+            outline: 2px solid #0d6efd !important;
+            outline-offset: 2px !important;
+        }
+        button:focus,
+        a:focus,
+        input:focus,
+        select:focus,
+        textarea:focus {
+            outline: 2px solid #0d6efd !important;
+            outline-offset: 2px !important;
+        }
+        /* High contrast focus state for keyboard navigation */
+        .nav-link:focus,
+        .nav-link:focus-visible {
+            outline: 2px solid #0d6efd !important;
+            outline-offset: -2px !important;
+        }
         .btn-group-vertical {
             width: 100%;
         }
@@ -27,33 +50,58 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light mb-4">
         <div class="container-fluid">
-            <a class="navbar-brand" href="{% url 'index' %}">Expense Tracker</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <a class="navbar-brand" href="{% url 'index' %}">{% trans "Expense Tracker" %}</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="{% trans 'Toggle navigation' %}">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'index' %}">Home</a>
+                        <a class="nav-link" href="{% url 'index' %}">{% trans "Home" %}</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'create_account' %}">New Account</a>
+                        <a class="nav-link" href="{% url 'create_account' %}">{% trans "New Account" %}</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'create_transaction' %}">New Transaction</a>
+                        <a class="nav-link" href="{% url 'create_transaction' %}">{% trans "New Transaction" %}</a>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="reportsDropdown" role="button" data-bs-toggle="dropdown">
-                            Reports
+                        <a class="nav-link dropdown-toggle" href="#" id="reportsDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            {% trans "Reports" %}
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="reportsDropdown">
-                            <li><a class="dropdown-item" href="{% url 'summary_report' %}">Summary</a></li>
-                            <li><a class="dropdown-item" href="{% url 'ledger_report' %}">Ledger</a></li>
+                            <li><a class="dropdown-item" href="{% url 'summary_report' %}">{% trans "Summary" %}</a></li>
+                            <li><a class="dropdown-item" href="{% url 'ledger_report' %}">{% trans "Ledger" %}</a></li>
                             <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="{% url 'import_transactions' %}">Import</a></li>
-                            <li><a class="dropdown-item" href="{% url 'export_transactions' %}">Export</a></li>
+                            <li><a class="dropdown-item" href="{% url 'import_transactions' %}">{% trans "Import" %}</a></li>
+                            <li><a class="dropdown-item" href="{% url 'export_transactions' %}">{% trans "Export" %}</a></li>
                         </ul>
                     </li>
+                    <!-- Language Selector -->
+                    <li class="nav-item">
+                        <form method="post" action="{% url 'set_language' %}" class="d-inline">
+                            {% csrf_token %}
+                            <input type="hidden" name="next" value="{{ request.get_full_path }}">
+                            <select name="language" class="form-select form-select-sm" onchange="this.form.submit();" aria-label="{% trans 'Select language' %}">
+                                {% get_available_languages as languages %}
+                                {% for code, name in languages %}
+                                    <option value="{{ code }}" {% if code == CURRENT_LANGUAGE %}selected{% endif %}>{{ name }}</option>
+                                {% endfor %}
+                            </select>
+                        </form>
+                    </li>
+                    {% if request.user.is_authenticated %}
+                    <li class="nav-item">
+                        <form method="post" action="{% url 'logout' %}" class="d-inline">
+                            {% csrf_token %}
+                            <button type="submit" class="nav-link">{% trans "Sign out" %}</button>
+                        </form>
+                    </li>
+                    {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'login' %}">{% trans "Sign In" %}</a>
+                    </li>
+                    {% endif %}
                 </ul>
             </div>
         </div>

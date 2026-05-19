@@ -2,20 +2,23 @@ import csv
 from io import StringIO
 from django import forms
 from django.core.exceptions import ValidationError
+from django.utils.translation import gettext_lazy as _
 from .models import Account, Transaction
 
 
 class CSVImportForm(forms.Form):
     """Form for importing transactions from CSV."""
     csv_file = forms.FileField(
+        label=_('CSV file'),
         widget=forms.FileInput(attrs={'class': 'form-control', 'accept': '.csv'}),
-        help_text='CSV format: account_name, date (YYYY-MM-DD HH:MM), amount, description'
+        help_text=_('CSV format: account_name, date (YYYY-MM-DD HH:MM), amount, description')
     )
     account = forms.ModelChoiceField(
         queryset=Account.objects.all(),
         required=False,
         widget=forms.Select(attrs={'class': 'form-control'}),
-        help_text='(Optional) Assign all rows to this account if not specified in CSV'
+        label=_('Default account'),
+        help_text=_('(Optional) Assign all rows to this account if not specified in CSV')
     )
 
     def clean_csv_file(self):
@@ -23,13 +26,13 @@ class CSVImportForm(forms.Form):
         file = self.cleaned_data['csv_file']
         
         if not file.name.endswith('.csv'):
-            raise ValidationError('File must be a CSV file.')
+            raise ValidationError(_('File must be a CSV file.'))
         
         try:
             content = file.read().decode('utf-8')
             csv.DictReader(StringIO(content))
         except Exception as e:
-            raise ValidationError(f'Invalid CSV format: {str(e)}')
+            raise ValidationError(_('Invalid CSV format: %(error)s') % {'error': str(e)})
         
         return file
 
@@ -48,13 +51,13 @@ class CSVImportForm(forms.Form):
                 description = row.get('description', '').strip()
                 
                 if not account_name and not self.cleaned_data.get('account'):
-                    raise ValueError('account_name required or select default account')
+                    raise ValueError(_('account_name required or select default account'))
                 
                 if not date_str:
-                    raise ValueError('date required')
+                    raise ValueError(_('date required'))
                 
                 if not amount_str:
-                    raise ValueError('amount required')
+                    raise ValueError(_('amount required'))
                 
                 transactions.append({
                     'row': row_num,
@@ -78,25 +81,25 @@ class ReportFilterForm(forms.Form):
         queryset=Account.objects.all(),
         required=False,
         widget=forms.Select(attrs={'class': 'form-control'}),
-        label='Account'
+        label=_('Account')
     )
     start_date = forms.DateField(
         required=False,
         widget=forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
-        label='Start Date'
+        label=_('Start Date')
     )
     end_date = forms.DateField(
         required=False,
         widget=forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
-        label='End Date'
+        label=_('End Date')
     )
     min_amount = forms.DecimalField(
         required=False,
         widget=forms.NumberInput(attrs={'class': 'form-control', 'step': '0.01'}),
-        label='Min Amount'
+        label=_('Min Amount')
     )
     max_amount = forms.DecimalField(
         required=False,
         widget=forms.NumberInput(attrs={'class': 'form-control', 'step': '0.01'}),
-        label='Max Amount'
+        label=_('Max Amount')
     )

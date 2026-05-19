@@ -3,9 +3,12 @@ __pycache__/
 *.sqlite3
 media/
 venv/
-.venv/git
+.venv/
 .env
 *.log
 node_modules/
 .pytest_cache/
-.github
+.github/
+.DS_Store
+*.pdf
+.vscode/

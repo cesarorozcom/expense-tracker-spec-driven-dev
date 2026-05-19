@@ -1,28 +1,29 @@
+{% load i18n %}
 {% extends 'base.html' %}
 
-{% block title %}Import Results - Expense Tracker{% endblock %}
+{% block title %}{% trans "Import Results" %} - {% trans "Expense Tracker" %}{% endblock %}
 
 {% block content %}
-<h1>Import Results</h1>
+<h1>{% trans "Import Results" %}</h1>
 
 <div class="mt-4">
     <div class="alert {% if error_count == 0 %}alert-success{% else %}alert-warning{% endif %}">
-        <h4 class="alert-heading">Import Summary</h4>
+        <h4 class="alert-heading">{% trans "Import Summary" %}</h4>
         <p>
-            <strong>Transactions Created:</strong> {{ created_count }}<br>
-            <strong>Errors:</strong> {{ error_count }}
+            <strong>{% trans "Transactions Created:" %}</strong> {{ created_count }}<br>
+            <strong>{% trans "Errors:" %}</strong> {{ error_count }}
         </p>
     </div>
     
     {% if errors %}
     <div class="alert alert-danger">
-        <h5>Errors Encountered:</h5>
+        <h5>{% trans "Errors Encountered:" %}</h5>
         <ul>
             {% for error in errors %}
             <li>{{ error }}</li>
             {% endfor %}
             {% if total_errors > errors|length %}
-            <li>... and {{ total_errors|add:errors|length|add:"-" }} more errors</li>
+            <li>{% trans "... and" %} {{ total_errors|add:errors|length|add:"-" }} {% trans "more errors" %}</li>
             {% endif %}
         </ul>
     </div>
@@ -30,8 +31,8 @@
 </div>
 
 <div class="mt-4">
-    <a href="{% url 'index' %}" class="btn btn-primary">Back to Accounts</a>
-    <a href="{% url 'import_transactions' %}" class="btn btn-secondary">Import More</a>
-    <a href="{% url 'ledger_report' %}" class="btn btn-info">View Ledger</a>
+    <a href="{% url 'index' %}" class="btn btn-primary">{% trans "Back to Accounts" %}</a>
+    <a href="{% url 'import_transactions' %}" class="btn btn-secondary">{% trans "Import More" %}</a>
+    <a href="{% url 'ledger_report' %}" class="btn btn-info">{% trans "View Ledger" %}</a>
 </div>
 {% endblock %}

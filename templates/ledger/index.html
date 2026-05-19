@@ -1,19 +1,20 @@
 {% extends 'base.html' %}
 
-{% block title %}Accounts - Expense Tracker{% endblock %}
+{% load i18n %}
+{% block title %}{% trans "Accounts" %} - {% trans "Expense Tracker" %}{% endblock %}
 
 {% block content %}
-<h1>My Accounts</h1>
+<h1>{% trans "My Accounts" %}</h1>
 
 {% if account_data %}
     <div class="table-responsive mt-4">
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th>Account Name</th>
-                    <th>Transactions</th>
-                    <th>Running Balance</th>
-                    <th>Actions</th>
+                    <th>{% trans "Account Name" %}</th>
+                    <th>{% trans "Transactions" %}</th>
+                    <th>{% trans "Running Balance" %}</th>
+                    <th>{% trans "Actions" %}</th>
                 </tr>
             </thead>
             <tbody>
@@ -23,8 +24,8 @@
                     <td>{{ item.transaction_count }}</td>
                     <td>${{ item.balance }}</td>
                     <td>
-                        <a href="{% url 'account_detail' item.account.id %}" class="btn btn-sm btn-info">View</a>
-                        <a href="{% url 'create_transaction_for_account' item.account.id %}" class="btn btn-sm btn-success">Add Transaction</a>
+                        <a href="{% url 'account_detail' item.account.id %}" class="btn btn-sm btn-info">{% trans "View" %}</a>
+                        <a href="{% url 'create_transaction_for_account' item.account.id %}" class="btn btn-sm btn-success">{% trans "Add Transaction" %}</a>
                     </td>
                 </tr>
                 {% endfor %}
@@ -33,11 +34,11 @@
     </div>
 {% else %}
     <div class="alert alert-info mt-4">
-        <p>No accounts yet. <a href="{% url 'create_account' %}" class="alert-link">Create one now</a>.</p>
+        <p>{% trans "No accounts yet." %} <a href="{% url 'create_account' %}" class="alert-link">{% trans "Create one now" %}</a>.</p>
     </div>
 {% endif %}
 
 <div class="mt-4">
-    <a href="{% url 'create_account' %}" class="btn btn-primary">Create Account</a>
+    <a href="{% url 'create_account' %}" class="btn btn-primary">{% trans "Create Account" %}</a>
 </div>
 {% endblock %}
